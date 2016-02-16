@@ -3,33 +3,33 @@
 var async = require('async');
 var config = require('../config.js');
 
-var price_settings = function(callback) {
+var price_settings = function(coin, callback) {
   config.load(function(err, config) {
     if (err) return callback(err);
     callback(null, {
-      provider: config.exchanges.plugins.current.ticker,
-      commission: config.exchanges.settings.commission,
+      provider: config.exchanges.plugins.current[coin].ticker,
+      commission: config.exchanges.settings[coin].commission,
       custom_url: null
     });
   });
 };
 
-var wallet_settings = function(callback) {
+var wallet_settings = function(coin, callback) {
   config.load(function(err, config) {
     if (err) return callback(err);
 
-    var provider = config.exchanges.plugins.current.transfer;
+    var provider = config.exchanges.plugins.current[coin].transfer;
     var settings = config.exchanges.plugins.settings[provider];
     settings.provider = provider;
     callback(null, settings);
   });
 };
 
-var exchange_settings = function(callback) {
+var exchange_settings = function(coin, callback) {
   config.load(function(err, config) {
     if (err) return callback(err);
 
-    var provider = config.exchanges.plugins.current.trade;
+    var provider = config.exchanges.plugins.current[coin].trade;
     if (!provider) {
       return callback(null, null);
     }
@@ -40,7 +40,7 @@ var exchange_settings = function(callback) {
   });
 };
 
-var compliance_settings = function(callback) {
+var compliance_settings = function(coin, callback) {
   config.load(function(err, config) {
     if (err) return callback(err);
 
@@ -58,7 +58,7 @@ var compliance_settings = function(callback) {
       }
     };
 
-    var compliance = config.exchanges.settings.compliance || default_settings;
+    var compliance = config.exchanges.settings[coin].compliance || default_settings;
 
     callback(null, compliance);
   });
@@ -73,24 +73,24 @@ exports.actions = function(req, res, ss) {
 
   return {
 
-    price: function() {
+    price: function(coin) {
 
       //return price settings to the client
-      price_settings(res);
+      price_settings(coin, res);
 
     }, 
     
-    wallet: function(){
+    wallet: function(coin){
 
       //return wallet settings to the client
-      wallet_settings(res);
+      wallet_settings(coin, res);
 
     }, 
     
-    exchange: function() {
+    exchange: function(coin) {
 
       //return exchange settings to the client
-      exchange_settings(res);
+      exchange_settings(coin, res);
 
     },
 
@@ -101,20 +101,21 @@ exports.actions = function(req, res, ss) {
 
     },
 
-    compliance: function() {
+    compliance: function(coin) {
 
       //return compliance settings
-      compliance_settings(res);
+      compliance_settings(coin, res);
 
     },
 
-    user: function() { //grabs all price/wallet/exhange data
-      
+    user: function(coin) { //grabs all price/wallet/exhange data
+      var coin = coin || 'BTC';
+
       async.parallel({
-        price: price_settings,
-        wallet: wallet_settings,
-        exchange: exchange_settings,
-        compliance: compliance_settings
+        price: async.apply(price_settings, coin),
+        wallet: async.apply(wallet_settings, coin),
+        exchange: async.apply(exchange_settings, coin),
+        compliance: async.apply(compliance_settings, coin)
       }, function(err, results) {
 
         if (err) //if err don't try to return data
