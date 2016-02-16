@@ -21,13 +21,18 @@ CREATE TABLE user_config (
 COPY user_config (id, type, data) FROM stdin;
 1	exchanges	{"exchanges" : {\
     "settings": {\
-      "commission": 1.0\
+      "BTC": {\
+        "commission": 1.0\
+      }\
     },\
     "plugins" : {\
+      "coins": ["BTC"],\
       "current": {\
-        "ticker": "bitpay",\
-        "trade": "bitstamp",\
-        "transfer": "blockchain"\
+        "BTC": {\
+          "ticker": "bitpay",\
+          "trade": "bitstamp",\
+          "transfer": "blockchain"\
+        }\
       },\
       "settings": {\
         "bitpay": {},\
