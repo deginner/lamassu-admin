@@ -7,8 +7,8 @@ var price_settings = function(coin, callback) {
   config.load(function(err, config) {
     if (err) return callback(err);
     callback(null, {
-      provider: config.exchanges.plugins.current[coin].ticker,
-      commission: config.exchanges.settings[coin].commission,
+      provider: config.exchanges.plugins.current[coin + "ticker"],
+      commission: config.exchanges.settings[coin + "commission"],
       custom_url: null
     });
   });
@@ -18,7 +18,7 @@ var wallet_settings = function(coin, callback) {
   config.load(function(err, config) {
     if (err) return callback(err);
 
-    var provider = config.exchanges.plugins.current[coin].transfer;
+    var provider = config.exchanges.plugins.current[coin + "transfer"];
     var settings = config.exchanges.plugins.settings[provider];
     settings.provider = provider;
     callback(null, settings);
@@ -29,7 +29,7 @@ var exchange_settings = function(coin, callback) {
   config.load(function(err, config) {
     if (err) return callback(err);
 
-    var provider = config.exchanges.plugins.current[coin].trade;
+    var provider = config.exchanges.plugins.current[coin + "trade"];
     if (!provider) {
       return callback(null, null);
     }
@@ -58,7 +58,7 @@ var compliance_settings = function(coin, callback) {
       }
     };
 
-    var compliance = config.exchanges.settings[coin].compliance || default_settings;
+    var compliance = config.exchanges.settings[coin + "compliance"] || default_settings;
 
     callback(null, compliance);
   });
