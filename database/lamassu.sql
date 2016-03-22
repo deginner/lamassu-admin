@@ -27,8 +27,10 @@ COPY user_config (id, type, data) FROM stdin;
       -- <currency>compliance i.e. DASHcompliance
     },\
     "plugins" : {\
-      "coins": ["BTC"],\
+      "coins": {"BTC": true, "DASH": false},\
       "current": {\
+        "coin": "BTC",\
+        -- coin currently being configured via the admin portal
         "ticker": "bitpay",\
         -- <currency>ticker i.e. DASHticker
         "trade": "bitstamp",\

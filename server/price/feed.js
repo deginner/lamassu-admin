@@ -4,7 +4,7 @@ var ss = require('socketstream');
 
 var _config = require('../config');
 var _currency = null;
-var _tickers = ['bitpay', 'bitstamp', 'coindesk', 'bitcoinaverage'];
+var _tickers = ['bitpay', 'bitstamp', 'coindesk', 'bitcoinaverage', 'poloniex'];
 var _tickerModules = _tickers.map(function (ticker) {
   return require('lamassu-' + ticker).ticker.factory();
 });
