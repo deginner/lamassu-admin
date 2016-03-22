@@ -17,10 +17,7 @@
     "lodash": "~2.4.1",
     "yargs": "^1.2.1",
     "ip": "^0.3.0",
-    "lamassu-coindesk": "~0.2.0",
-    "lamassu-bitcoinaverage": "~0.2.0",
-    "lamassu-bitstamp": "~0.2.0",
-    "lamassu-bitpay": "~0.3.0"
+    "lamassu-coinapult": "~0.4.5"
   },
   "scripts": {
     "start": "node app.js",

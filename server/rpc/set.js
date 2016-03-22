@@ -12,8 +12,10 @@ exports.actions = function (req, res, ss) {
     price: function (data) {
       config.load(function (err, results) {
         if (err) return res(err);
+        var coin = results.exchanges.plugins.current.coin || "BTC"
+        coin = (coin == 'BTC' ? '' : coin);
         results.exchanges.settings.commission = data.commission;
-        results.exchanges.plugins.current.ticker = data.provider;
+        results.exchanges.plugins.current[coin + "ticker"] = data.provider;
         config.saveExchangesConfig(results, res);
       });
     },
@@ -21,10 +23,11 @@ exports.actions = function (req, res, ss) {
     wallet: function(data) {
       config.load(function(err, results) {
         if (err) return res(err);
-
+        var coin = results.exchanges.plugins.current.coin || "BTC"
+        coin = (coin == 'BTC' ? '' : coin);
         var provider = data.provider;
         var settings = results.exchanges.plugins.settings[provider];
-        results.exchanges.plugins.current.wallet = provider;
+        results.exchanges.plugins.current[coin + "wallet"] = provider;
         Object.keys(data).forEach(function(key) {
           if (key !== 'provider')
             settings[key] = data[key];
@@ -38,8 +41,11 @@ exports.actions = function (req, res, ss) {
       config.load(function(err, results) {
         if (err) return res(err);
 
+        var coin = results.exchanges.plugins.current.coin || "BTC"
+        coin = (coin == 'BTC' ? '' : coin);
+
         var provider = data.enabled ? data.provider : null;
-        results.exchanges.plugins.current.trade = provider;
+        results.exchanges.plugins.current[coin + "trade"] = provider;
 
         if (provider) {
           var settings = results.exchanges.plugins.settings[provider] ||
@@ -64,11 +70,24 @@ exports.actions = function (req, res, ss) {
 
     },
 
+    coins: function(data) {
+      config.load(function(err, results) {
+        if (err) return callback(err);
+        results.exchanges.plugins.current['coin'] = data['coin']
+        if (data.hasOwnProperty('enabled')) {
+          results.exchanges.plugins.coins[data['coin']] = data['enabled'];
+        }
+        config.saveExchangesConfig(results, res);
+      });
+    },
+
     compliance: function(data) {
       config.load(function(err, results) {
         if (err) return callback(err);
         // validate elements???
-        results.exchanges.settings.compliance = data;
+        var coin = results.exchanges.plugins.current.coin || "BTC"
+        coin = (coin == 'BTC' ? '' : coin);
+        results.exchanges.settings[coin + "compliance"] = data;
         // res { ok: true }
         config.saveExchangesConfig(results, res);
       });
