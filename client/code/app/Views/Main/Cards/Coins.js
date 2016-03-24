@@ -30,17 +30,12 @@ module.exports = Backbone.View.extend({
     
     //define settings object
     var val_coin = self.$el.find('#coin').val()
-    console.log("val_coin: " + val_coin);
-    console.log("user in update_settings: " + JSON.stringify(self.user));
     self.user.set('coins',  {'coin': val_coin, 'enabled': self.enabled});
     self.user.once('saved:coins', function (err) {
-      console.log("saved coins... err: " + JSON.stringify(err));
       ss.rpc('get.user', function(err, user) {
-        console.log("got user:\n" + JSON.stringify(user));
         if (err)
           console.log('Error returned from user.get: \n\n' + JSON.stringify(err, null, '  '));
         if (user != null) {
-          console.log('setting exchange: ' + JSON.stringify(user.exchange));
           self.user.set('exchange', user.exchange);
           self.user.set('wallet', user.wallet);
           self.user.set('price', user.price);
@@ -54,7 +49,6 @@ module.exports = Backbone.View.extend({
   set_toggle: function(){
 
     var self = this
-    console.log("setting toggle: " + self.enabled);
     if(self.enabled){
 
       self.enabled = false
@@ -79,9 +73,7 @@ module.exports = Backbone.View.extend({
       coin: 'BTC',
       enabled: true
     };
-
     var coins = self.user.get('coins') || coin_settings;
-    console.log("filling view with coins: " + JSON.stringify(coins));
     self.$el.find('#coin').val(coins.coin);
 
     self.enabled = coins.enabled || false;

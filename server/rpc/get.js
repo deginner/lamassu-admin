@@ -73,7 +73,6 @@ var compliance_settings = function(callback) {
 var coin_settings = function(callback) {
   config.load(function(err, config) {
     if (err) return callback(err);
-
     var coin = config.exchanges.plugins.current.coin || "BTC"
     var enabled = config.exchanges.plugins.coins[coin]
     var settings = {
