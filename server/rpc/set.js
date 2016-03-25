@@ -28,6 +28,7 @@ exports.actions = function (req, res, ss) {
         var provider = data.provider;
         var settings = results.exchanges.plugins.settings[provider];
         results.exchanges.plugins.current[coin + "wallet"] = provider;
+        results.exchanges.plugins.current[coin + "transfer"] = provider;
         Object.keys(data).forEach(function(key) {
           if (key !== 'provider')
             settings[key] = data[key];
