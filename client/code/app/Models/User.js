@@ -4,7 +4,7 @@ var PriceData = Backbone.Model.extend({ //this model keeps a current record of p
 
     var self = this
 
-    self.sources = ['bitstamp', 'bitpay', 'coindesk', 'bitcoinaverage']
+    self.sources = ['bitstamp', 'bitpay', 'coindesk', 'bitcoinaverage', 'poloniex']
 
     self.sources.forEach(function(source){
       var price_update = 'latest_price:' + source;
@@ -29,7 +29,7 @@ module.exports = Backbone.Model.extend({
 
     ss.rpc('get.user', this.authenticate.bind(this));
 
-    ['price', 'wallet', 'exchange', 'compliance'].forEach(function (key) {
+    ['price', 'wallet', 'exchange', 'compliance', 'coins'].forEach(function (key) {
       self.on('change:' + key, function () {
         ss.rpc('set.' + key, self.get(key), function (err, res) {
           // If setting was successfully saved, emit `'saved:' + key` to

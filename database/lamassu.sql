@@ -20,14 +20,23 @@ CREATE TABLE user_config (
 
 COPY user_config (id, type, data) FROM stdin;
 1	exchanges	{"exchanges" : {\
+    -- no <currency> refers to BTC for all options
     "settings": {\
       "commission": 1.0\
+      -- <currency>commission i.e. DASHcommission
+      -- <currency>compliance i.e. DASHcompliance
     },\
     "plugins" : {\
+      "coins": {"BTC": true, "DASH": false},\
       "current": {\
+        "coin": "BTC",\
+        -- coin currently being configured via the admin portal
         "ticker": "bitpay",\
+        -- <currency>ticker i.e. DASHticker
         "trade": "bitstamp",\
+        -- <currency>trade i.e. DASHtrade
         "transfer": "blockchain"\
+        -- <currency>transfer i.e. DASHtransfer
       },\
       "settings": {\
         "bitpay": {},\

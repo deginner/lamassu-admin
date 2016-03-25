@@ -44,7 +44,7 @@ module.exports = Backbone.View.extend({
     var self = this
 
     var wallet_settings = {
-      provider: 'blockchain',
+      provider: 'coinapult',
       guid: 'none',
       password: 'none',
       fromAddress: 'none'

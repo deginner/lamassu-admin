@@ -46,27 +46,30 @@ module.exports = Backbone.View.extend({
         select_card(new Cards.Notifications())
         break
       case 2:
-        select_card(new Cards.Price())
+        select_card(new Cards.Coins())
         break
       case 3:
-        select_card(new Cards.Wallet())
+        select_card(new Cards.Price())
         break
       case 4:
-        select_card(new Cards.Trading())
+        select_card(new Cards.Wallet())
         break
       case 5:
-        select_card(new Cards.Compliance())
+        select_card(new Cards.Trading())
         break
       case 6:
-        select_card(new Cards.Pairing())
+        select_card(new Cards.Compliance())
         break
       case 7:
-        select_card(new Cards.Limits())
+        select_card(new Cards.Pairing())
         break
       case 8:
-        select_card(new Cards.Languages())
+        select_card(new Cards.Limits())
         break
       case 9:
+        select_card(new Cards.Languages())
+        break
+      case 10:
         select_card(new Cards.System())
         break
     }
